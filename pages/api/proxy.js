@@ -12,9 +12,11 @@ const cors = Cors({
     "Authorization",
     "Content-Type",
     "Referer",
+    "Origin",
+    "Proxied-Domain",
     "User-Agent",
   ],
-  credentials: true,
+  // credentials: true,
 });
 
 // Helper para executar o middleware de forma assíncrona
