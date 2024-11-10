@@ -5,10 +5,18 @@ const dynamicProxy = async (req, res) => {
   // Obtém o domínio de destino do cabeçalho 'proxied-domain'
   const targetDomain = req.headers["proxied-domain"];
 
-  if (!targetDomain) {
+  // Verifica se o cabeçalho foi fornecido e se é uma URL válida
+  if (
+    !targetDomain ||
+    typeof targetDomain !== "string" ||
+    !/^https?:\/\//.test(targetDomain)
+  ) {
     res
       .status(400)
-      .json({ error: 'Cabeçalho "proxied-domain" é obrigatório.' });
+      .json({
+        error:
+          'Cabeçalho "proxied-domain" é obrigatório e deve ser uma URL válida com http ou https.',
+      });
     return;
   }
 
@@ -16,16 +24,15 @@ const dynamicProxy = async (req, res) => {
   const proxy = createProxyMiddleware({
     target: targetDomain, // Usa o domínio do cabeçalho
     changeOrigin: true,
-    // pathRewrite: { "^/api": "" }, // Remove o prefixo '/api' (opcional)
+    // pathRewrite: { '^/api': '' }, // Remove o prefixo '/api' (opcional)
   });
 
   // Executa o proxy
   return new Promise((resolve, reject) => {
     proxy(req, res, (result) => {
       if (result instanceof Error) {
-        res.status(500).json({
-          error: "Erro ao redirecionar a requisição: " + result.message,
-        });
+        console.error("Erro no proxy:", result);
+        res.status(500).json({ error: "Erro ao redirecionar a requisição" });
         reject(result);
       } else {
         resolve(result);
