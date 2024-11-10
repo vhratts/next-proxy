@@ -16,15 +16,16 @@ const dynamicProxy = async (req, res) => {
   const proxy = createProxyMiddleware({
     target: targetDomain, // Usa o domínio do cabeçalho
     changeOrigin: true,
-    pathRewrite: { "^/api": "" }, // Remove o prefixo '/api' (opcional)
+    // pathRewrite: { "^/api": "" }, // Remove o prefixo '/api' (opcional)
   });
 
   // Executa o proxy
   return new Promise((resolve, reject) => {
     proxy(req, res, (result) => {
       if (result instanceof Error) {
-        console.error("Erro no proxy:", result);
-        res.status(500).json({ error: "Erro ao redirecionar a requisição" });
+        res.status(500).json({
+          error: "Erro ao redirecionar a requisição: " + result.message,
+        });
         reject(result);
       } else {
         resolve(result);
