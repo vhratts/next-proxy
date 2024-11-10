@@ -1,9 +1,9 @@
 import Cors from "cors";
 import dynamicProxy from "../../middlewares/proxy-middleware.js";
 
-// Inicializa o middleware CORS
+// Configura o middleware CORS
 const cors = Cors({
-  origin: "*", // Permite qualquer origem
+  origin: "*", // Permitir qualquer origem
   methods: ["GET", "OPTIONS", "POST", "PUT"],
   allowedHeaders: [
     "X-CSRF-Token",
@@ -17,7 +17,7 @@ const cors = Cors({
   credentials: true,
 });
 
-// Helper para rodar o middleware de forma assíncrona
+// Helper para executar o middleware de forma assíncrona
 function runMiddleware(req, res, fn) {
   return new Promise((resolve, reject) => {
     fn(req, res, (result) => {
@@ -30,15 +30,20 @@ function runMiddleware(req, res, fn) {
 }
 
 export default async function handler(req, res) {
-  // Aplica o middleware CORS
-  await runMiddleware(req, res, cors);
+  try {
+    // Executa o middleware CORS antes de processar a requisição
+    await runMiddleware(req, res, cors);
 
-  // Lida com requisições OPTIONS (pré-flight)
-  if (req.method === "OPTIONS") {
-    res.status(200).end();
-    return;
+    // Verifica se a requisição é OPTIONS e retorna 200
+    if (req.method === "OPTIONS") {
+      res.status(200).end();
+      return;
+    }
+
+    // Chama o middleware de proxy dinâmico
+    await dynamicProxy(req, res);
+  } catch (error) {
+    console.error("Erro no middleware CORS ou no proxy:", error);
+    res.status(500).json({ error: "Erro interno no servidor." });
   }
-
-  // Chama o middleware de proxy dinâmico
-  await dynamicProxy(req, res);
 }
