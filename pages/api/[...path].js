@@ -44,8 +44,8 @@ export default async function handler(req, res) {
     }
 
     // Chama o middleware de proxy dinâmico
-    await dynamicProxy(req, res);
-    // await customProxyMiddleware(req, res);
+    // await dynamicProxy(req, res);
+    await customProxyMiddleware(req, res);
   } catch (error) {
     console.error("Erro no middleware CORS ou no proxy:", error);
     res.status(500).json({ error: "Erro interno no servidor." });
