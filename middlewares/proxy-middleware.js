@@ -4,7 +4,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 const dynamicProxy = async (req, res) => {
   // Obtém o domínio de destino do cabeçalho 'proxied-domain'
   const targetDomain = req.headers["proxied-domain"];
-
+  // console.log(req, res)
   // Verifica se o cabeçalho foi fornecido e se é uma URL válida
   if (
     !targetDomain ||
@@ -17,7 +17,9 @@ const dynamicProxy = async (req, res) => {
     });
     return;
   }
-
+  console.log(
+    `Passando pelo PROXY DInamico: Redirecionando entrada para => ${targetDomain}`,
+  );
   // Cria um middleware de proxy dinâmico
   const proxy = createProxyMiddleware({
     target: targetDomain, // Usa o domínio do cabeçalho
