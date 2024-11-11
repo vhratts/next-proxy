@@ -10,6 +10,7 @@
   "author": "vhratts",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.7.7",
     "cors": "^2.8.5",
     "http-proxy-middleware": "^3.0.3",
     "next": "^15.0.3",
