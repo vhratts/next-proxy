@@ -9,9 +9,10 @@ services:
       - "2407:2407" # Expõe a porta 2407 no host para acessar a aplicação
     environment:
       - NODE_ENV=production
+      - PORT=2407
     networks:
-      - app-network
+      - proxy-network
 
 networks:
-  app-network:
+  proxy-network:
     driver: bridge
