@@ -1,5 +1,4 @@
 import Cors from "cors";
-import dynamicProxy from "../../middlewares/proxy-middleware.js";
 import customProxyMiddleware from "../../middlewares/axios-proxy-middleware.js";
 
 // Configura o middleware CORS
