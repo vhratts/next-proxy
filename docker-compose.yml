@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000" # Expõe a porta 3000 no host para acessar a aplicação
+      - "2407:2407" # Expõe a porta 2407 no host para acessar a aplicação
     environment:
       - NODE_ENV=production
     networks:

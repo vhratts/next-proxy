@@ -16,8 +16,11 @@ COPY . .
 # Compila a aplicação Next.js
 RUN npm run build
 
-# Expõe a porta 3000 (padrão do Next.js)
-EXPOSE 3000
+# Define a variável de ambiente PORT para 2407
+ENV PORT=2407
+
+# Expõe a porta 2407
+EXPOSE 2407
 
 # Comando para rodar a aplicação
 CMD ["npm", "start"]
