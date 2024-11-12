@@ -1,15 +1,14 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  next-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  next-proxy:
+    build: .
+    container_name: next-proxy
     ports:
-      - "2407:2407" # Expõe a porta 2407 no host para acessar a aplicação
+      - "2407:3000"  # Mapeia a porta 3000 do container para a porta 2407 do host
     environment:
-      - NODE_ENV=production
-      - PORT=2407
+      - NODE_ENV=production  # Defina o ambiente como produção, se necessário
+      - NEXT_PUBLIC_API_URL=http://localhost:3000/api  # URL do backend que pode ser acessado pela aplicação
     networks:
       - proxy-network
 
