@@ -26,7 +26,7 @@ const dynamicProxy = async (req, res) => {
   const proxy = createProxyMiddleware({
     target: targetDomain, // Usa o domínio do cabeçalho
     changeOrigin: true,
-    isSecureContext: isSecureContext ?? false,
+    secure: isSecureContext ?? false,
     timeout: 60000, // Timeout de 60 segundos
     proxyTimeout: 60000, // Timeout para resposta do servidor de destino
     pathRewrite: { "^/api": "" }, // Remove o prefixo '/api' (opcional)
