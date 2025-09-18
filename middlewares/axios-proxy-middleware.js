@@ -25,7 +25,7 @@ const customProxyMiddleware = async (req, res) => {
     const requestBodyData = {
       url: targetUrl,
       method: req.method,
-      headers: { ...req.headers, host: new URL(targetDomain).host }, // Atualiza o cabeçalho 'host'
+      headers: { ...req.headers, host: req.headers.host ?? new URL(targetDomain).host }, // Atualiza o cabeçalho 'host'
       ...requestData, // Inclui o corpo da requisição, se houver
       timeout: 60000, // Timeout configurável (60 segundos aqui)
       validateStatus: () => true, // Permite que todos os códigos de status sejam retornados
